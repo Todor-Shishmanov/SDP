@@ -32,5 +32,8 @@
     <ClInclude Include="CustomStructures\sdp_vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CustomStructures\vector_implementation.ipp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
