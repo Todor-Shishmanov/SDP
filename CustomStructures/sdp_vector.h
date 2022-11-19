@@ -16,7 +16,7 @@ namespace sdp {
 	public:
 		Vector();										// Default
 		Vector(const Vector& other);					// Copy
-		Vector(Type* arr, const size_t size);			// Sorta kinda close to copy
+		Vector(Type* arr, const size_t size);			// Array constructor - Sorta kinda close to copy
 		Vector(Vector&& other) noexcept;				// Move, std::vector has one without noexcept???
 		~Vector() noexcept;								// Destructor
 		Vector& operator=(const Vector& other);			// Assign operator
@@ -74,7 +74,7 @@ namespace sdp {
 		size_(0),
 		capacity_(8)
 	{
-		data_ = static_cast<Type*>(::operator new(sizeof(Type) * capacity_));// explicity with ::operator new is intended. Placement new and operator new are fucking with my brain rn
+		data_ = static_cast<Type*>(::operator new(sizeof(Type) * capacity_));// new operator and operator new are fucking with my brain rn
 	}
 	
 	template<typename Type>
@@ -117,7 +117,7 @@ namespace sdp {
 		for (size_t i = 0; i < size_; ++i)
 			data_[i].~Type();
 
-		delete[] data_;
+		operator delete[](data_);
 	}
 
 	template<typename Type>
