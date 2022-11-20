@@ -7,8 +7,6 @@ using namespace sdp;
 
 namespace CustomVector
 {
-
-
 	struct Person {
 		Person() : name("Smith"), age(30) {}
 		Person(std::string name_arg, int age_arg) : name(name_arg), age(age_arg) {}
@@ -797,90 +795,6 @@ namespace CustomVector
 			Assert::AreEqual(v.data()[9].name, v.back().name);
 			Assert::AreEqual(v.data()[9].age, v.back().age);
 		}
-		/*
-		TEST_METHOD(Int)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Char)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Person)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Int)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Char)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Person)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Int)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Char)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Person)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Int)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Char)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}
-
-		TEST_METHOD(Person)
-		{
-			// Arrange
-			// Act
-			// Assert
-		}*/
 	};
 
 	TEST_CLASS(ElementRelatedFunctions) {
@@ -1280,6 +1194,337 @@ namespace CustomVector
 			Assert::AreEqual(luci.age, person_poped.age);
 			Assert::IsTrue(v_person.empty());
 			Assert::AreEqual(static_cast<size_t>(8), v_person.capacity());
+		}
+	};
+
+	TEST_CLASS(SizeRelatedFunctions) {
+	public:
+		// This method isn't template related
+		TEST_METHOD(Empty)
+		{
+			// Arrange
+			Vector<Person> v;
+			Person data[1] = { Person("Linda", 3) };
+			Vector<Person> v2(data, 1);
+
+			// Act + Assert
+			Assert::IsTrue(v.empty());
+			Assert::IsFalse(v2.empty());
+		}
+		
+		TEST_METHOD(ResizeUpInt)
+		{
+			// Arrange
+			int data[3] = { 1, 3, 2 };
+			Vector<int> v(data, 3);
+
+			// Act
+			v.resize(10);
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(10), v.size(), L"Size doesn't match");
+			Assert::AreEqual(1, v_data[0], L"First old element changed");
+			Assert::AreEqual(3, v_data[1], L"Second old element changed");
+			Assert::AreEqual(2, v_data[2], L"Third old element changed");
+			for (unsigned i = 3; i < 10; ++i)
+				Assert::AreEqual(0, v_data[i], L"Not filled with default elements");
+		}
+
+		TEST_METHOD(ResizeUpChar)
+		{
+			// Arrange
+			char data[3] = { 'a', 'd', 'h'};
+			Vector<char> v(data, 3);
+
+			// Act
+			v.resize(10);
+			char* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(10), v.size(), L"Size doesn't match");
+			Assert::AreEqual('a', v_data[0], L"First old element changed");
+			Assert::AreEqual('d', v_data[1], L"Second old element changed");
+			Assert::AreEqual('h', v_data[2], L"Third old element changed");
+			for (unsigned i = 3; i < 10; ++i)
+				Assert::AreEqual(static_cast<char>(0), v_data[i], L"Not filled with default elements");
+		}
+
+		TEST_METHOD(ResizeUpPerson)
+		{
+			// Arrange
+			Person data[3] = { Person("a", 5), Person("h", 2), Person("asd", 531) };
+			Vector<Person> v(data, 3);
+
+			// Act
+			v.resize(10);
+			Person* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(10), v.size(), L"Size doesn't match");
+			Assert::AreEqual(data[0].name, v_data[0].name, L"First old element changed");
+			Assert::AreEqual(data[0].age, v_data[0].age, L"First old element changed");
+			Assert::AreEqual(data[1].name, v_data[1].name, L"Second old element changed");
+			Assert::AreEqual(data[1].age, v_data[1].age, L"Second old element changed");
+			Assert::AreEqual(data[2].name, v_data[2].name, L"Third old element changed");
+			Assert::AreEqual(data[2].age, v_data[2].age, L"Third old element changed");
+			Person normal;
+			for (unsigned i = 3; i < 10; ++i) {
+				Assert::AreEqual(normal.name, v_data[i].name, L"Not filled with default elements");
+				Assert::AreEqual(normal.age, v_data[i].age, L"Not filled with default elements");
+			}
+				
+		}
+		
+		TEST_METHOD(ResizeDownInt)
+		{
+			// Arrange
+			const int data[10] = { 123, 33, 245, 2, 1, 4, 2 };
+			Vector<int> v(data, 10);
+
+			// Act
+			v.resize(4);
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(4), v.size(), L"Size doesn't match");
+			Assert::AreEqual(data[0], v_data[0], L"First old element changed");
+			Assert::AreEqual(data[1], v_data[1], L"Second old element changed");
+			Assert::AreEqual(data[2], v_data[2], L"Third old element changed");
+			Assert::AreEqual(data[3], v_data[3], L"Forth old element changed");
+		}
+
+		TEST_METHOD(ResizeDownChar)
+		{
+			// Arrange
+			const char data[10] = { 'a', '2', '4', '/', '%', 'a', '2' };
+			Vector<char> v(data, 10);
+
+			// Act
+			v.resize(4);
+			char* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(4), v.size(), L"Size doesn't match");
+			Assert::AreEqual(data[0], v_data[0], L"First old element changed");
+			Assert::AreEqual(data[1], v_data[1], L"Second old element changed");
+			Assert::AreEqual(data[2], v_data[2], L"Third old element changed");
+			Assert::AreEqual(data[3], v_data[3], L"Forth old element changed");
+		}
+
+		TEST_METHOD(ResizeDownPerson)
+		{
+			// Arrange
+			const Person data[10] = { Person("a", 5), Person("h", 2), Person("asd", 531), Person("hhaha", 5) };
+			Vector<Person> v(data, 10);
+
+			// Act
+			v.resize(4);
+			Person* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(4), v.size(), L"Size doesn't match");
+			Assert::AreEqual(data[0].name, v_data[0].name, L"First old element changed");
+			Assert::AreEqual(data[0].age, v_data[0].age, L"First old element changed");
+			Assert::AreEqual(data[1].name, v_data[1].name, L"Second old element changed");
+			Assert::AreEqual(data[1].age, v_data[1].age, L"Second old element changed");
+			Assert::AreEqual(data[2].name, v_data[2].name, L"Third old element changed");
+			Assert::AreEqual(data[2].age, v_data[2].age, L"Third old element changed");
+			Assert::AreEqual(data[3].name, v_data[3].name, L"Forth old element changed");
+			Assert::AreEqual(data[3].age, v_data[3].age, L"Forth old element changed");
+		}
+
+		// Shouldn't reach a templated call
+		TEST_METHOD(ReserveDown)
+		{
+			// Arrange
+			const int data[10] = { 123, 33, 245, 2, 1, 4, 2 };
+			Vector<int> v(data, 10);
+			size_t old_cap = v.capacity();
+
+			// Act
+			v.reserve(2);
+			size_t new_cap = v.capacity();
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(old_cap, new_cap, L"Capacity changed");
+			for (unsigned i = 0; i < 10; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ReserveUpInt)
+		{
+			// Arrange
+			const int data[10] = { 123, 33, 245, 2, 1, 4, 2 };
+			Vector<int> v(data, 10);
+
+			// Act
+			v.reserve(100);
+			size_t new_cap = v.capacity();
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(100), new_cap, L"Capacity not changed");
+			for (unsigned i = 0; i < 10; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ReserveUpChar)
+		{
+			// Arrange
+			const char data[10] = { 'a', 'b', 'c', 'd', 'e'};
+			Vector<char> v(data, 10);
+
+			// Act
+			v.reserve(100);
+			size_t new_cap = v.capacity();
+			char* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(100), new_cap, L"Capacity not changed");
+			for (unsigned i = 0; i < 10; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ReserveUpPerson)
+		{
+			// Arrange
+			const Person data[10] = { Person("a", 5), Person("h", 2), Person("ad", 531), Person("lmao", 5) };
+			Vector<Person> v(data, 10);
+
+			// Act
+			v.reserve(100);
+			size_t new_cap = v.capacity();
+			Person* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(100), new_cap, L"Capacity not changed");
+			for (unsigned i = 0; i < 10; ++i) {
+				Assert::AreEqual(data[i].name, v_data[i].name, L"Elements changed");
+				Assert::AreEqual(data[i].age, v_data[i].age, L"Elements changed");
+			}		
+		}
+		
+		TEST_METHOD(ShrinkUpInt)
+		{
+			// Arrange
+			const int data[10] = { 123, 33, 245, 2, 1, 4, 2 };
+			Vector<int> v(data, 10);
+			size_t old_cap = v.capacity();
+
+			// Act
+			v.shrink(100);
+			size_t new_cap = v.capacity();
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(old_cap, new_cap, L"Capacity changed");
+			for (unsigned i = 0; i < 10; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ShrinkDownInt)
+		{
+			// Arrange
+			const int data[10] = { 123, 33, 245, 2, 1, 4, 2 };
+			Vector<int> v(data, 10);
+
+			// Act
+			v.shrink(5);
+			size_t new_cap = v.capacity();
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(5), new_cap, L"Capacity not changed");
+			for (unsigned i = 0; i < 5; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ShrinkDownChar)
+		{
+			// Arrange
+			const char data[10] = { 'a', 'b', 'c', 'd', 'e' };
+			Vector<char> v(data, 10);
+
+			// Act
+			v.shrink(5);
+			size_t new_cap = v.capacity();
+			char* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(5), new_cap, L"Capacity not changed");
+			for (unsigned i = 0; i < 5; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ShrinkDownPerson)
+		{
+			// Arrange
+			const Person data[10] = { Person("a", 5), Person("h", 2), Person("asd", 531), Person("hhaha", 5), Person("ha", 52), Person("aha", 51) };
+			Vector<Person> v(data, 10);
+
+			// Act
+			v.shrink(5);
+			size_t new_cap = v.capacity();
+			Person* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(static_cast<size_t>(5), new_cap, L"Capacity not changed");
+			for (unsigned i = 0; i < 5; ++i) {
+				Assert::AreEqual(data[i].name, v_data[i].name, L"Elements changed");
+				Assert::AreEqual(data[i].age, v_data[i].age, L"Elements changed");
+			}
+		}
+		
+		TEST_METHOD(ShrinkToFitInt)
+		{
+			// Arrange
+			const int data[10] = { 123, 33, 245, 2, 1, 4, 2 };
+			Vector<int> v(data, 10);
+
+			// Act
+			v.shrink_to_fit();
+			int* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(v.size(), v.capacity(), L"Capacity not equal to size");
+			for (unsigned i = 0; i < 10; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ShrinkToFitChar)
+		{
+			// Arrange
+			const char data[10] = { '/', 'g', 'c', 'h', '4' };
+			Vector<char> v(data, 10);
+
+			// Act
+			v.shrink_to_fit();
+			char* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(v.size(), v.capacity(), L"Capacity not equal to size");
+			for (unsigned i = 0; i < 10; ++i)
+				Assert::AreEqual(data[i], v_data[i], L"Elements changed");
+		}
+
+		TEST_METHOD(ShrinkToFitPerson)
+		{
+			// Arrange
+			const Person data[10] = { Person("a", 5), Person("h", 2), Person("asd", 531), Person("hhaha", 5), Person("ha", 52), Person("aha", 51) };
+			Vector<Person> v(data, 10);
+
+			// Act
+			v.shrink_to_fit();
+			Person* v_data = v.data();
+
+			// Assert
+			Assert::AreEqual(v.size(), v.capacity(), L"Capacity not equal to size");
+			for (unsigned i = 0; i < 10; ++i) {
+				Assert::AreEqual(data[i].name, v_data[i].name, L"Elements changed");
+				Assert::AreEqual(data[i].age, v_data[i].age, L"Elements changed");
+			}
 		}
 	};
 }
