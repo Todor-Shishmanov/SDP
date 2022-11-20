@@ -337,7 +337,553 @@ namespace CustomVector
 		}
 	};
 
-	TEST_CLASS(Operations) {
+	TEST_CLASS(AccessRelatedFunctions) {
+	public:
+		TEST_METHOD(DataGetterInt)
+		{
+			// Arrange
+			int data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i;
+			const Vector<int> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v.data()[i]);
+		}
+
+		TEST_METHOD(DataGetterChar)
+		{
+			// Arrange
+			char data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i % 120;
+			Vector<char> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v.data()[i]);
+		}
+
+		TEST_METHOD(DataGetterPerson)
+		{
+			// Arrange
+			Person data[100];
+			for (unsigned i = 0; i < 100; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+
+			Vector<Person> v(data, 100);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 100; ++i) {
+				Assert::AreEqual(data[i].name, v.data()[i].name);
+				Assert::AreEqual(data[i].age, v.data()[i].age);
+			}
+		}
+
+		TEST_METHOD(DataGetterEmpty)
+		{
+			Vector<Person> v;
+			Assert::IsTrue(v.data()); // v.data() != nullptr
+		}
+
+		TEST_METHOD(RandomAccessOperatorInt)
+		{
+			// Arrange
+			int data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i;
+			Vector<int> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v[i]);
+		}
+
+		TEST_METHOD(RandomAccessOperatorChar)
+		{
+			// Arrange
+			char data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i%120;
+			Vector<char> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v[i]);
+		}
+
+		TEST_METHOD(RandomAccessOperatorPerson)
+		{
+			// Arrange
+			Person data[100];
+			for (unsigned i = 0; i < 100; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+				
+			Vector<Person> v(data, 100);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 100; ++i) {
+				Assert::AreEqual(data[i].name, v[i].name);
+				Assert::AreEqual(data[i].age, v[i].age);
+			}
+		}
+		
+		TEST_METHOD(ConstRandomAccessOperatorInt)
+		{
+			// Arrange
+			int data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i;
+			const Vector<int> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v[i]);
+		}
+
+		TEST_METHOD(ConstRandomAccessOperatorChar)
+		{
+			// Arrange
+			char data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i % 120;
+			const Vector<char> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v[i]);
+		}
+
+		TEST_METHOD(ConstRandomAccessOperatorPerson)
+		{
+			// Arrange
+			Person data[100];
+			for (unsigned i = 0; i < 100; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+
+			const Vector<Person> v(data, 100);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 100; ++i) {
+				Assert::AreEqual(data[i].name, v[i].name);
+				Assert::AreEqual(data[i].age, v[i].age);
+			}
+		}
+		
+		TEST_METHOD(AtNoThrowInt)
+		{
+			// Arrange
+			int data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i;
+			Vector<int> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v.at(i));
+		}
+
+		TEST_METHOD(AtNoThrowChar)
+		{
+			// Arrange
+			char data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i % 120;
+			Vector<char> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v.at(i));
+		}
+
+		TEST_METHOD(AtNoThrowPerson)
+		{
+			// Arrange
+			Person data[100];
+			for (unsigned i = 0; i < 100; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+
+			Vector<Person> v(data, 100);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 100; ++i) {
+				Assert::AreEqual(data[i].name, v.at(i).name);
+				Assert::AreEqual(data[i].age, v.at(i).age);
+			}
+		}
+
+		TEST_METHOD(ConstAtNoThrowInt)
+		{
+			// Arrange
+			int data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i;
+			const Vector<int> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v.at(i));
+		}
+
+		TEST_METHOD(ConstAtNoThrowChar)
+		{
+			// Arrange
+			char data[1000];
+			for (unsigned i = 0; i < 1000; ++i)
+				data[i] = i % 120;
+			const Vector<char> v(data, 1000);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 1000; ++i)
+				Assert::AreEqual(data[i], v.at(i));
+		}
+
+		TEST_METHOD(ConstAtNoThrowPerson)
+		{
+			// Arrange
+			Person data[100];
+			for (unsigned i = 0; i < 100; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+
+			const Vector<Person> v(data, 100);
+
+			// Act + Assert
+			for (unsigned i = 0; i < 100; ++i) {
+				Assert::AreEqual(data[i].name, v.at(i).name);
+				Assert::AreEqual(data[i].age, v.at(i).age);
+			}
+		}
+
+		TEST_METHOD(AtThrow)
+		{
+			// Arrange
+			int data[10];
+			Vector<int> v(data, 10);
+
+			// Act + Assert
+			try {
+				v.at(100);
+			}
+			catch (std::out_of_range&) {
+				return;
+			}	
+			catch (...) {
+				Assert::Fail(L"Wrong exception thrown");
+			}
+
+			Assert::Fail(L"No exception thrown");
+		}
+
+		TEST_METHOD(AtThrowEmpty)
+		{
+			// Arrange
+			Vector<Person> v;
+
+			// Act + Assert
+			try {
+				v.at(0);
+			}
+			catch (std::out_of_range&) {
+				return;
+			}
+			catch (...) {
+				Assert::Fail(L"Wrong exception thrown");
+			}
+
+			Assert::Fail(L"No exception thrown");
+		}
+		
+		TEST_METHOD(FrontInt)
+		{
+			// Arrange
+			int data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			Vector<int> v(data, 10);
+
+			// Act
+			v.front() = 5;
+
+			// Assert
+			Assert::AreEqual(5, v.front());
+			Assert::AreEqual(v.data()[0], v.front());
+		}
+
+		TEST_METHOD(FrontChar)
+		{
+			// Arrange
+			char data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			Vector<char> v(data, 10);
+
+			// Act
+			v.front() = 'b';
+
+			// Assert
+			Assert::AreEqual('b', v.front());
+			Assert::AreEqual(v.data()[0], v.front());
+		}
+
+		TEST_METHOD(FrontPerson)
+		{
+			// Arrange
+			Person data[10];
+			for (unsigned i = 0; i < 10; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+			Vector<Person> v(data, 10);
+
+			// Act
+			v.front().name = "b";
+			v.front().age = 51;
+
+			// Assert
+			std::string name = "b";
+			Assert::AreEqual(name, v.front().name);
+			Assert::AreEqual(51, v.front().age);
+			Assert::AreEqual(v.data()[0].name, v.front().name);
+			Assert::AreEqual(v.data()[0].age, v.front().age);
+		}
+
+		TEST_METHOD(ConstFrontInt)
+		{
+			// Arrange
+			int data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			const Vector<int> v(data, 10);
+
+			// Act + Assert
+			Assert::AreEqual(data[0], v.front());
+			Assert::AreEqual(v.data()[0], v.front());
+		}
+
+		TEST_METHOD(ConstFrontChar)
+		{
+			// Arrange
+			char data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			const Vector<char> v(data, 10);
+
+			// Act + Assert
+			Assert::AreEqual(data[0], v.front());
+			Assert::AreEqual(v.data()[0], v.front());
+		}
+
+		TEST_METHOD(ConstFrontPerson)
+		{
+			// Arrange
+			Person data[10];
+			for (unsigned i = 0; i < 10; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+			const Vector<Person> v(data, 10);
+
+			// Act + Assert
+			Assert::AreEqual(data[0].name, v.front().name);
+			Assert::AreEqual(data[0].age, v.front().age);
+			Assert::AreEqual(v.data()[0].name, v.front().name);
+			Assert::AreEqual(v.data()[0].age, v.front().age);
+		}
+
+		TEST_METHOD(BackInt)
+		{
+			// Arrange
+			int data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			Vector<int> v(data, 10);
+
+			// Act
+			v.back() = 15;
+
+			// Assert
+			Assert::AreEqual(15, v.back());
+			Assert::AreEqual(v.data()[9], v.back());
+		}
+
+		TEST_METHOD(BackChar)
+		{
+			// Arrange
+			char data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			Vector<char> v(data, 10);
+
+			// Act
+			v.back() = 'v';
+
+			// Assert
+			Assert::AreEqual('v', v.back());
+			Assert::AreEqual(v.data()[9], v.back());
+		}
+
+		TEST_METHOD(BackPerson)
+		{
+			// Arrange
+			Person data[10];
+			for (unsigned i = 0; i < 10; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+			Vector<Person> v(data, 10);
+
+			// Act
+			v.back().name = "asd";
+			v.back().age = 51;
+
+			// Assert
+			std::string name = "asd";
+			Assert::AreEqual(name, v.back().name);
+			Assert::AreEqual(51, v.back().age);
+			Assert::AreEqual(v.data()[9].name, v.back().name);
+			Assert::AreEqual(v.data()[9].age, v.back().age);
+		}
+
+		TEST_METHOD(ConstBackInt)
+		{
+			// Arrange
+			int data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			const Vector<int> v(data, 10);
+
+			// Act + Assert
+			Assert::AreEqual(data[9], v.back());
+			Assert::AreEqual(v.data()[9], v.back());
+		}
+
+		TEST_METHOD(ConstBackChar)
+		{
+			// Arrange
+			char data[10];
+			for (unsigned i = 0; i < 10; ++i)
+				data[i] = i;
+			const Vector<char> v(data, 10);
+
+			// Act + Assert
+			Assert::AreEqual(data[9], v.back());
+			Assert::AreEqual(v.data()[9], v.back());
+		}
+
+		TEST_METHOD(ConstBackPerson)
+		{
+			// Arrange
+			Person data[10];
+			for (unsigned i = 0; i < 10; ++i) {
+				data[i].name = std::to_string(i);
+				data[i].age = i + 1;
+			}
+			const Vector<Person> v(data, 10);
+
+			// Act + Assert
+			Assert::AreEqual(data[9].name, v.back().name);
+			Assert::AreEqual(data[9].age, v.back().age);
+			Assert::AreEqual(v.data()[9].name, v.back().name);
+			Assert::AreEqual(v.data()[9].age, v.back().age);
+		}
+		/*
+		TEST_METHOD(Int)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Char)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Person)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Int)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Char)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Person)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Int)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Char)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Person)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Int)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Char)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}
+
+		TEST_METHOD(Person)
+		{
+			// Arrange
+			// Act
+			// Assert
+		}*/
+	};
+
+	TEST_CLASS(ElementRelatedFunctions) {
 	public:
 		TEST_METHOD(PushBackInt) {
 			// Arrange
@@ -687,9 +1233,8 @@ namespace CustomVector
 			// Assert
 			Assert::AreEqual(static_cast<size_t>(0), v.size());
 		}
-
-
-
+		
+		// Old test, but no reason to remove it
 		TEST_METHOD(PushAndPopBackGetInt) {
 			// Arrange
 			Vector<int> v_int;
@@ -704,6 +1249,7 @@ namespace CustomVector
 			Assert::AreEqual(static_cast<size_t>(8), v_int.capacity());
 		}
 
+		// Old test, but no reason to remove it
 		TEST_METHOD(PushAndPopBackGetChar) {
 			// Arrange
 			Vector<char> v_char;
@@ -718,6 +1264,7 @@ namespace CustomVector
 			Assert::AreEqual(static_cast<size_t>(8), v_char.capacity());
 		}
 
+		// Old test, but no reason to remove it
 		TEST_METHOD(PushAndPopBackGetPerson)
 		{
 			// Arrange
