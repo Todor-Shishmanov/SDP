@@ -26,7 +26,7 @@
     <ClInclude Include="Kontrolni\kontrolno_one.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CustomStructures\sdp_stack.h">
+    <ClInclude Include="CustomStructures\sdp_link_list.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CustomStructures\sdp_vector.h">
